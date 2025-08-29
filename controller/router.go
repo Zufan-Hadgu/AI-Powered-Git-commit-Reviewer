@@ -1,11 +1,13 @@
 package controller
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+)
 
 func SetupRouter(reviewcontroller *ReviewController) *gin.Engine{
 	r := gin.Default()
 
-	r.POST("/review", reviewController.Review)
+	r.POST("/review",reviewcontroller.Review)
 
 	return r
 

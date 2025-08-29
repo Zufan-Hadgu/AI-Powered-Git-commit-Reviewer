@@ -1,0 +1,44 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Build outputs
+*.out
+*.test
+*.prof
+
+# Go workspace files
+bin/
+dist/
+build/
+
+# Dependency management
+vendor/
+
+# IDE/editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment & config (keep secrets out of Git)
+.env
+.env.local
+.env.*.local
+
+# Coverage / test output
+coverage.*
+*.coverprofile
+
+# Go modules cache
+/go.sum

@@ -1,7 +1,6 @@
 package repository
 
 import (
-	"context"
 	"encoding/json"
 	"fmt"
 
@@ -18,7 +17,7 @@ func NewReviewRepository(aiClient *ai.GrokClient) *ReviewRepository {
 	return &ReviewRepository{aiClient: aiClient}
 }
 
-func (r *ReviewRepository) ReviewCommit(ctx context.Context, commit entity.Commit) (*entity.Review, error) {
+func (r *ReviewRepository) ReviewCommit(commit entity.Commit) (*entity.Review, error) {
 	messages := []entity.Message{
 		{Role: "system", Content: "You are a code review assistant. Respond in JSON format with suggestedMessage, summary, and Score."},
 		{Role: "user", Content: fmt.Sprintf("Commit message:\n%s\n\nDiff:\n%s", commit.Message, commit.Diff)},
