@@ -18,10 +18,32 @@ func NewReviewRepository(aiClient *ai.GrokClient) *ReviewRepository {
 }
 
 func (r *ReviewRepository) ReviewCommit(commit entity.Commit) (*entity.Review, error) {
-	messages := []entity.Message{
-		{Role: "system", Content: "You are a code review assistant. Respond in JSON format with suggestedMessage, summary, and Score."},
-		{Role: "user", Content: fmt.Sprintf("Commit message:\n%s\n\nDiff:\n%s", commit.Message, commit.Diff)},
-	}
+messages := []entity.Message{
+    {
+        Role: "system",
+        Content: `You are a code review assistant. Analyze the commit message and code changes (diff) and suggest improvements.
+
+Respond **ONLY** in JSON format, using this schema:
+
+{
+	"feedback": "concise review comments on the code (1-3 sentences)",
+	"suggestedMessage": "a concise Git commit message following Conventional Commit best practices (feat:, fix:, refactor:, docs:, test:, chore:). Use imperative tense, lowercase type, and short description (<50 chars).",
+	"score": 0-100
+}
+
+Rules:
+- Do NOT include any text outside JSON.
+- suggestedMessage must be actionable and clear.
+- Keep feedback short and precise.
+- Ensure suggestedMessage is less than 50 characters if possible.`,
+    },
+    {
+        Role: "user",
+        Content: fmt.Sprintf("Commit message:\n%s\n\nDiff:\n%s", commit.Message, commit.Diff),
+    },
+}
+
+
 
 	chatResp, err := r.aiClient.GenerateChat(messages, 300)
 	if err != nil {
